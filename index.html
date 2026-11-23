@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ORDNANCE CONTROL</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#070b09;--panel:#0d1511;--line:#1f3a2c;--g:#3dff8a;--r:#ff3b3b;--a:#ffb020;--dim:#5f8a73}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--g);font-family:"Courier New",ui-monospace,monospace}
+body{padding:12px;max-width:640px;margin:0 auto}
+@media (min-width:900px){body{max-width:1200px;padding:24px}#clock{font-size:120px}.top{padding:26px}#list{grid-template-columns:repeat(3,1fr)}button{cursor:pointer;font-size:15px}button:hover:not(:disabled){background:#14261c}.stats b{font-size:30px}}
+#pv{display:none;text-align:center}body.pl h1,body.pl .top,body.pl .stats,body.pl .row,body.pl #list{display:none}body.pl #pv{display:block}body.pl #pv .top{display:block}
+#land{display:none;text-align:center}.lc{border:1px solid var(--line);background:var(--panel);padding:18px;border-radius:6px}#land input{width:100%;margin:6px 0;text-align:center;letter-spacing:3px;text-transform:uppercase}#land button{width:100%;margin-top:6px}.t2{font-size:12px;letter-spacing:3px;color:var(--dim);margin-top:18px}
+body.land #land{display:block}body.land h1,body.land .top,body.land .stats,body.land .row,body.land #list,body.land #hb,body.land #lvw{display:none}
+.u{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px 6px;text-align:center;font-size:11px;letter-spacing:1px;color:var(--dim)}.u svg{width:80px;height:96px;display:block;margin:0 auto 8px}.u b{display:block;font-size:16px;letter-spacing:2px}.u.ARMED{border-color:var(--r);color:var(--r)}.u.SAFE{color:var(--g)}.u.SAFE svg{opacity:.5}.u.DET{background:#2a0a0a}.u.DET svg{opacity:.3}
+#ser{width:100%;text-align:left;letter-spacing:2px}#ser.bad{border-color:var(--r)}
+h1{font-size:14px;letter-spacing:3px;margin:0 0 8px;color:var(--dim)}
+.top{border:1px solid var(--line);background:var(--panel);padding:12px;text-align:center;border-radius:6px}
+#clock{font-size:64px;font-weight:bold;letter-spacing:4px;line-height:1}
+#state{font-size:12px;letter-spacing:3px;color:var(--a);margin-top:6px}
+.stats{display:flex;gap:8px;margin:10px 0}
+.stats div{flex:1;border:1px solid var(--line);background:var(--panel);padding:8px;text-align:center;font-size:11px;color:var(--dim);border-radius:6px}
+.stats b{display:block;font-size:22px;color:var(--g)}
+.row{display:flex;gap:8px;margin-bottom:10px}
+button{font:inherit;background:var(--panel);color:var(--g);border:1px solid var(--g);padding:12px;border-radius:6px;letter-spacing:2px;font-weight:bold;flex:1}
+button.red{color:var(--r);border-color:var(--r)}button:disabled{opacity:.3}
+input{font:inherit;width:70px;background:#000;color:var(--g);border:1px solid var(--line);padding:10px;border-radius:6px;text-align:center}
+#list{display:grid;gap:6px}
+.g{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);background:var(--panel);padding:12px;border-radius:6px}
+.g small{display:block;color:var(--dim);font-size:10px;margin-top:2px}
+.tag{font-size:12px;letter-spacing:2px;padding:4px 8px;border:1px solid;border-radius:4px}
+.ARMED{color:var(--r);animation:bl 1s infinite}.SAFE{color:var(--g)}.DET{color:#fff;background:var(--r);border-color:var(--r)}.IDLE{color:var(--dim)}
+@keyframes bl{50%{opacity:.35}}
+#modal{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;padding:20px;z-index:5}
+#box{background:var(--panel);border:1px solid var(--g);padding:18px;border-radius:8px;width:100%;max-width:360px;text-align:center}
+.bar{height:14px;border:1px solid var(--g);margin:14px 0;border-radius:3px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--g)}
+#boom{position:fixed;inset:0;background:var(--r);color:#fff;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:9;padding:20px}
+#boom.on{display:flex;animation:fl .4s 6}@keyframes fl{50%{background:#fff;color:var(--r)}}
+#boom h2{font-size:40px;margin:0 0 10px}
+</style></head><body>
+<div id="land"><div class="lc"><div style="font-size:14px;letter-spacing:3px;color:var(--dim)">◉ ORDNANCE CONTROL // FIELD SYSTEM</div>
+<div class="t2">JOIN A GAME</div><input id="jp" placeholder="GAME CODE" maxlength="4" inputmode="numeric" pattern="[0-9]*" autocomplete="off" oninput="this.value=this.value.replace(/\D/g,'')"><input id="jn" placeholder="YOUR NAME" maxlength="20" style="text-transform:none" autocomplete="off"><button id="jb">JOIN</button>
+<div class="t2" style="margin-top:30px">COMMANDER</div><button id="cb">START GAME</button>
+<div id="le" style="color:var(--r);font-size:13px;margin-top:12px;min-height:16px"></div></div></div>
+<h1>◉ ORDNANCE CONTROL // REMOTE ARMING SYSTEM v4.2</h1>
+<div id="hb" class="lc" style="display:none;margin-bottom:10px;text-align:center"><div style="font-size:12px;letter-spacing:3px;color:var(--dim)">GAME CODE</div><div id="hp" style="font-size:48px;font-weight:bold;letter-spacing:8px"></div><div style="font-size:12px;color:var(--dim)"><span id="plc">0</span> PLAYERS: <span id="pls">NONE YET</span></div></div>
+<div class="top"><div id="clock">10:00</div><div id="state">STANDBY</div></div>
+<div class="stats"><div><b id="nA">0</b>ARMED</div><div><b id="nS">0</b>DEACTIVATED</div><div><b id="nD">0</b>DETONATED</div></div>
+<div class="row"><span style="align-self:center;font-size:12px;color:var(--dim)">UNITS</span><input id="cnt" type="number" value="8" min="1" max="40"><button id="go">START ROUND</button><button id="rst" class="red">RESET</button></div>
+<div id="list"></div>
+<div id="pv"><div class="top" style="padding:28px 12px"><div style="color:var(--dim);letter-spacing:3px;font-size:12px">ORDNANCE CONTROL // FIELD STATUS</div><div id="pl" style="font-size:14px;letter-spacing:3px;margin-top:22px;color:var(--a)">UNITS STILL ACTIVE</div><div id="pn" style="font-size:130px;font-weight:bold;line-height:1.1">--</div><div id="pc" style="font-size:40px;letter-spacing:4px">--:--</div><div id="ps" style="font-size:12px;letter-spacing:3px;color:var(--dim);margin-top:14px">CONNECTING...</div></div><div id="pg" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:12px"></div></div>
+<div id="modal"><div id="box"><div id="mt">DEACTIVATE</div><div class="bar"><i id="pb"></i></div><div id="ms" style="font-size:12px;color:var(--dim)"></div><div class="row" style="margin-top:14px"><button id="ok">CONFIRM</button><button id="no" class="red">CANCEL</button></div></div></div>
+<div id="boom"><h2>DETONATION</h2><div id="bt" style="font-size:18px"></div><button style="margin-top:24px;flex:none;color:#fff;border-color:#fff;background:#0006" id="bc">CLOSE</button></div>
+<div id="lvw" style="text-align:center;margin:24px 0 8px"><a href="#" id="lv" style="color:var(--dim);font-size:11px;letter-spacing:2px">LEAVE GAME</a></div>
+<script>
+var N=8,u=[],T=600,left=T,tm=null,run=false,cur=-1,ac=null;
+var $=function(i){return document.getElementById(i)};
+function beep(f,d){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();var o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;g.gain.value=.08;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}}
+function fmt(s){return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+var TYPES=[["FRAG","pine"],["FLASHBANG","can"],["SMOKE","can"],["IMPACT","ball"],["CLUSTER","pine"],["THERMAL","ball"],["DECOY","can"],["SHOCK","ball"]];
+function build(){N=Math.max(1,Math.min(40,+$("cnt").value||8));u=[];for(var i=0;i<N;i++){var ty=TYPES[i%TYPES.length];u.push({id:ty[0]+"-"+String(i+1).padStart(2,"0"),t:ty[0],sh:ty[1],s:"IDLE"})}}
+function render(){var h="";u.forEach(function(x,i){var lbl={IDLE:"OFFLINE",ARMED:"ARMED",SAFE:"DEACTIVATED",DET:"DETONATED"}[x.s];
+h+='<div class="g"><div>'+x.id+'<small>FUSE '+(x.s=="ARMED"?fmt(left):"--:--")+'</small></div>'+
+(x.s=="ARMED"?'<button style="flex:none;padding:8px 12px" data-i="'+i+'">DEACTIVATE</button>':'<span class="tag '+x.s+'">'+lbl+'</span>')+'</div>'});
+$("list").innerHTML=h;
+$("nA").textContent=u.filter(function(x){return x.s=="ARMED"}).length;$("nS").textContent=u.filter(function(x){return x.s=="SAFE"}).length;$("nD").textContent=u.filter(function(x){return x.s=="DET"}).length;sync()}
+$("list").onclick=function(e){var i=e.target.getAttribute("data-i");if(i===null)return;cur=+i;$("mt").textContent="DEACTIVATE "+u[cur].id;$("ms").textContent="PLACE UNIT ON PAD, THEN CONFIRM";$("pb").style.width="0";$("ok").disabled=false;$("modal").style.display="flex"};
+$("no").onclick=function(){$("modal").style.display="none"};
+$("ok").onclick=function(){$("ok").disabled=true;var p=0,msgs=["READING TRANSPONDER...","VERIFYING UNIT...","SEVERING FUSE LINK...","SAFING CHARGE..."];
+var iv=setInterval(function(){p+=5;$("pb").style.width=p+"%";$("ms").textContent=msgs[Math.min(3,Math.floor(p/25))];if(p%20==0)beep(900,.05);
+if(p>=100){clearInterval(iv);if(u[cur].s=="ARMED"){u[cur].s="SAFE"}$("ms").textContent="UNIT SAFE";beep(1400,.4);setTimeout(function(){$("modal").style.display="none";render();check()},700)}},100)};
+function check(){if(run&&!u.some(function(x){return x.s=="ARMED"})){end(true)}}
+$("go").onclick=function(){if(run)return;build();u.forEach(function(x){x.s="ARMED"});left=T;endAt=Date.now()+T*1000;run=true;$("state").textContent="ARMED // COUNTDOWN ACTIVE";$("go").disabled=true;beep(600,.3);render();
+tm=setInterval(function(){left--;$("clock").textContent=fmt(left);$("clock").style.color=left<=60?"var(--r)":"var(--g)";if(left<=60||left%30==0)beep(left<=10?1200:800,.06);render();if(left<=0)end(false)},1000)};
+function end(allSafe){clearInterval(tm);run=false;$("go").disabled=false;
+if(allSafe){$("state").textContent="ALL UNITS DEACTIVATED";return}
+var live=u.filter(function(x){return x.s=="ARMED"});live.forEach(function(x){x.s="DET"});render();
+$("state").textContent="TIME EXPIRED";$("clock").textContent="00:00";
+if(live.length){$("bt").textContent=live.length+" UNIT"+(live.length>1?"S":"")+" DETONATED: "+live.map(function(x){return x.id}).join(", ");$("boom").className="on";[200,150,100,80].forEach(function(f,k){setTimeout(function(){beep(f,.5)},k*200)})}}
+$("bc").onclick=function(){$("boom").className=""};
+$("rst").onclick=function(){clearInterval(tm);run=false;left=T;endAt=0;$("go").disabled=false;$("clock").textContent="10:00";$("clock").style.color="var(--g)";$("state").textContent="STANDBY";build();render()};
+function openUnit(i){cur=i;$("mt").textContent="DEACTIVATE "+u[cur].id;$("ms").textContent="PLACE UNIT ON PAD, THEN CONFIRM (ENTER)";$("pb").style.width="0";$("ok").disabled=false;$("modal").style.display="flex";$("ok").focus()}
+document.addEventListener("keydown",function(e){if($("boom").className=="on"){if(e.key=="Escape"||e.key=="Enter")$("boom").className="";return}
+if($("modal").style.display=="flex"){if(e.key=="Enter"&&!$("ok").disabled){e.preventDefault();$("ok").click()}if(e.key=="Escape"&&!$("ok").disabled)$("no").click();return}
+if(e.key=="Escape")$("rst").click()});
+var SB_URL="https://ycbqjuygvnlwhvksbiqx.supabase.co",SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljYnFqdXlndm5sd2h2a3NiaXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2NjM5MDUsImV4cCI6MjEwNzIzOTkwNX0.nRc6gVP3rK_khWHyG46o9aFkbganLf5iy9IpfVmck_c";
+var endAt=0,lastK="",snap=null,pin="",secret="",role="",pname="";
+function ss(k,v){try{if(v===undefined)return sessionStorage.getItem(k)||"";if(v===null)sessionStorage.removeItem(k);else sessionStorage.setItem(k,v)}catch(e){}return ""}
+function sb(path,o){o=o||{};o.headers={apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json"};return fetch(SB_URL+"/rest/v1/"+path,o)}
+function rpc(n,args){return sb("rpc/"+n,{method:"POST",body:JSON.stringify(args)}).then(function(r){if(r.ok)return r.text().then(function(t){return t?JSON.parse(t):null});return r.json().then(function(j){throw new Error(j.message||"Error")})})}
+function sync(){if(role!="host")return;var a=u.filter(function(x){return x.s=="ARMED"}).length,sf=u.filter(function(x){return x.s=="SAFE"}).length,d=u.filter(function(x){return x.s=="DET"}).length,st=run?"running":(sf+d>0?"over":"lobby"),us=u.map(function(x){return {i:x.id,s:x.s,t:x.t,h:x.sh}}),k=[st,a,sf,d,u.length,endAt,JSON.stringify(us)].join("|");if(k==lastK)return;lastK=k;
+rpc("gg_set",{p_pin:pin,p_secret:secret,p_status:st,p_active:a,p_safe:sf,p_det:d,p_total:u.length,p_ends:endAt,p_units:us}).catch(function(){lastK=""})}
+function hostPoll(){sb("gg_players?pin=eq."+pin+"&select=name&order=id").then(function(r){return r.json()}).then(function(a){$("plc").textContent=a.length;$("pls").textContent=a.length?a.map(function(x){return x.name}).join(", "):"NONE YET"}).catch(function(){})}
+var SH={pine:'<svg viewBox="0 0 44 52"><rect x="17" y="2" width="10" height="5" rx="1" fill="currentColor"/><rect x="25" y="3" width="10" height="3" rx="1.5" fill="currentColor"/><rect x="15" y="7" width="14" height="5" rx="1" fill="currentColor"/><ellipse cx="22" cy="31" rx="16" ry="19" fill="currentColor"/><path d="M6 31h32M22 12v38M10 19c8 4 16 4 24 0M10 43c8-4 16-4 24 0" stroke="#070b09" stroke-width="1.5" fill="none"/></svg>',can:'<svg viewBox="0 0 44 52"><rect x="13" y="12" width="18" height="38" rx="3" fill="currentColor"/><rect x="15" y="4" width="14" height="8" rx="1" fill="currentColor"/><rect x="29" y="5" width="9" height="3" rx="1.5" fill="currentColor"/><path d="M13 22h18M13 40h18" stroke="#070b09" stroke-width="2"/></svg>',ball:'<svg viewBox="0 0 44 52"><circle cx="22" cy="31" r="19" fill="currentColor"/><rect x="18" y="3" width="8" height="9" rx="1" fill="currentColor"/><rect x="25" y="4" width="10" height="3" rx="1.5" fill="currentColor"/><path d="M4 31h36M22 12v38" stroke="#070b09" stroke-width="2"/></svg>'},lastG="";
+function ugrid(a){var L={ARMED:"ARMED",SAFE:"DEACTIVATED",DET:"DETONATED",IDLE:"OFFLINE"};return (a||[]).map(function(x){return '<div class="u '+x.s+'">'+(SH[x.h]||SH.pine)+'<b>'+(x.t||x.i)+'</b>'+x.i+'<div style="margin-top:4px">'+(L[x.s]||"")+'</div></div>'}).join("")}
+function pshow(){var x=snap;if(!x)return;var g=x.status=="lobby"?"":ugrid(x.units);if(g!=lastG){lastG=g;$("pg").innerHTML=g}var rem=x.status=="running"?Math.max(0,Math.ceil((x.endsAt-Date.now())/1000)):0;
+$("pc").textContent=x.status=="running"?fmt(rem):"--:--";$("pc").style.color=x.status=="running"&&rem<=60?"var(--r)":"var(--g)";
+if(x.status=="lobby"){$("pl").textContent="PLAYERS IN THE WAITING ROOM";$("pn").textContent=x.players;$("pn").style.color="var(--g)";$("ps").textContent="GAME CODE "+pin+" // YOU: "+pname+" // WAITING FOR OPERATOR TO START"}
+else if(x.status=="running"){$("pl").textContent="UNITS STILL ACTIVE";$("pn").textContent=x.active;$("pn").style.color="var(--r)";$("ps").textContent="COUNTDOWN ACTIVE // "+x.safe+" OF "+x.total+" DEACTIVATED"}
+else if(x.det>0){$("pl").textContent="UNITS DETONATED";$("pn").textContent=x.det;$("pn").style.color="var(--r)";$("ps").textContent="ROUND OVER // "+x.safe+" DEACTIVATED"}
+else{$("pl").textContent="ALL UNITS DEACTIVATED";$("pn").textContent="0";$("pn").style.color="var(--g)";$("ps").textContent="ROUND OVER // "+x.total+" OF "+x.total+" DEACTIVATED"}}
+function poll(){Promise.all([sb("gg_games?pin=eq."+pin+"&select=*").then(function(r){return r.json()}),sb("gg_players?pin=eq."+pin+"&select=name").then(function(r){return r.json()})]).then(function(v){var x=v[0]&&v[0][0];snap=x?{status:x.status,active:x.active,safe:x.safe,det:x.det,total:x.total,endsAt:x.ends_at,units:x.units,players:v[1].length}:null;if(snap)pshow();else $("ps").textContent="GAME NOT FOUND OR EXPIRED"}).catch(function(){$("ps").textContent="CONNECTION LOST, RETRYING..."})}
+$("cb").onclick=function(){$("le").textContent="";var tries=0;(function go(){var p=String(Math.floor(1000+Math.random()*9000));rpc("gg_create",{p_pin:p}).then(function(sec){role="host";pin=p;secret=sec;ss("role","host");ss("pin",p);ss("secret",sec);boot()}).catch(function(e){if(/in use/.test(e.message)&&++tries<6)go();else $("le").textContent=/fetch|network/i.test(e.message)?"Cannot reach the game server. Open the GitHub Pages link in your browser.":e.message})})()};
+$("jb").onclick=function(){var p=$("jp").value.trim().toUpperCase(),n=$("jn").value.trim();$("le").textContent="";rpc("gg_join",{p_pin:p,p_name:n}).then(function(){role="player";pin=p;pname=n;ss("role","player");ss("pin",p);ss("pname",n);boot()}).catch(function(e){$("le").textContent=e.message})};
+$("lv").onclick=function(e){e.preventDefault();["role","pin","secret","pname"].forEach(function(k){ss(k,null)});location.reload()};
+function boot(){role=role||ss("role");pin=pin||ss("pin");secret=secret||ss("secret");pname=pname||ss("pname");
+if(role=="host"&&pin&&secret){document.body.className="";$("hb").style.display="block";$("hp").textContent=pin;$("state").textContent="LOBBY // PLAYERS JOIN WITH THE CODE";hostPoll();setInterval(hostPoll,2000);lastK="";sync()}
+else if(role=="player"&&pin){document.body.className="pl";$("ps").textContent="CONNECTING...";poll();setInterval(poll,2000);setInterval(pshow,500)}
+else{role="";document.body.className="land"}}
+build();render();boot();
+</script></body></html>
