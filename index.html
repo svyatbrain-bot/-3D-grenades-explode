@@ -11,6 +11,9 @@ body{padding:12px;max-width:640px;margin:0 auto}
 #land{display:none;text-align:center}.lc{border:1px solid var(--line);background:var(--panel);padding:18px;border-radius:6px}#land input{width:100%;margin:6px 0;text-align:center;letter-spacing:3px;text-transform:uppercase}#land button{width:100%;margin-top:6px}.t2{font-size:12px;letter-spacing:3px;color:var(--dim);margin-top:18px}
 body.land #land{display:block}body.land h1,body.land .top,body.land .stats,body.land .row,body.land #list,body.land #hb,body.land #lvw{display:none}
 .u{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px 6px;text-align:center;font-size:11px;letter-spacing:1px;color:var(--dim)}.u svg{width:80px;height:96px;display:block;margin:0 auto 8px}.u b{display:block;font-size:16px;letter-spacing:2px}.u.ARMED{border-color:var(--r);color:var(--r)}.u.SAFE{color:var(--g)}.u.SAFE svg{opacity:.5}.u.DET{background:#2a0a0a}.u.DET svg{opacity:.3}
+#tg{display:none;text-align:center}body.tg #tg{display:block}body.tg h1,body.tg .top,body.tg .stats,body.tg .row,body.tg #list,body.tg #hb,body.tg #lvw{display:none}
+#reg{display:none}body.rg #reg{display:block}body.rg h1,body.rg .top,body.rg .stats,body.rg .row,body.rg #list,body.rg #hb,body.rg #land,body.rg #lvw{display:none}
+#reg input,#reg select{width:100%;margin:6px 0;padding:11px;background:#000;color:var(--g);border:1px solid var(--line);border-radius:6px;font:inherit;text-align:center}#reg button{width:100%;margin-top:6px}#reg a{color:var(--dim);font-size:11px;letter-spacing:2px;margin-left:8px}#reg .g button{width:auto}
 #ser{width:100%;text-align:left;letter-spacing:2px}#ser.bad{border-color:var(--r)}
 h1{font-size:14px;letter-spacing:3px;margin:0 0 8px;color:var(--dim)}
 .top{border:1px solid var(--line);background:var(--panel);padding:12px;text-align:center;border-radius:6px}
@@ -39,7 +42,23 @@ input{font:inherit;width:70px;background:#000;color:var(--g);border:1px solid va
 <div id="land"><div class="lc"><div style="font-size:14px;letter-spacing:3px;color:var(--dim)">◉ ORDNANCE CONTROL // FIELD SYSTEM</div>
 <div class="t2">JOIN A GAME</div><input id="jp" placeholder="GAME CODE" maxlength="4" inputmode="numeric" pattern="[0-9]*" autocomplete="off" oninput="this.value=this.value.replace(/\D/g,'')"><input id="jn" placeholder="YOUR NAME" maxlength="20" style="text-transform:none" autocomplete="off"><button id="jb">JOIN</button>
 <div class="t2" style="margin-top:30px">COMMANDER</div><button id="cb">START GAME</button>
+<div class="t2" style="margin-top:30px">REGISTER ZONE</div><button id="rz">LOG IN / REGISTER A GRENADE</button><button id="sh1">BUY GRENADES &amp; PADS</button>
 <div id="le" style="color:var(--r);font-size:13px;margin-top:12px;min-height:16px"></div></div></div>
+<div id="tg"><div class="lc"><div style="font-size:14px;letter-spacing:3px;color:var(--dim)">◉ GRENADE TAG CHECK</div><div id="tgs" style="font-size:26px;font-weight:bold;margin:20px 0">CHECKING...</div><div id="tgi" style="color:var(--dim)"></div><button id="tgb" style="width:100%;margin-top:14px">OPEN APP</button></div></div>
+<div id="reg"><div class="lc"><div style="font-size:14px;letter-spacing:3px;color:var(--dim)">◉ REGISTER ZONE</div>
+<div id="ra"><div class="t2">LOG IN OR CREATE AN ACCOUNT</div><input id="ru" placeholder="USERNAME" autocomplete="username" autocapitalize="none"><input id="rp" type="password" placeholder="PASSWORD (6+ CHARACTERS)" autocomplete="current-password"><button id="rli">LOG IN</button><button id="rsu">CREATE ACCOUNT</button><div style="font-size:11px;color:var(--dim);margin-top:10px">Do not reuse a real password from another site.</div></div>
+<div id="rb" style="display:none"><div class="t2">LOGGED IN AS <b id="rn"></b><a href="#" id="rlo">LOG OUT</a></div>
+<button id="cg0" style="margin-top:12px">CREATE GRENADE</button>
+<div id="cg" style="display:none;border:1px solid var(--line);padding:12px;border-radius:6px;margin:8px 0">
+<div id="cg1"><div class="t2" style="margin-top:0">DO YOU OWN A GRENADE?</div><button id="cgy">YES</button><button id="cgn">NO, I NEED ONE</button></div>
+<div id="cg2" style="display:none"><div class="t2" style="margin-top:0">GRENADE DETAILS</div><select id="cgt"><option>FRAG</option><option>FLASHBANG</option><option>SMOKE</option><option>IMPACT</option><option>CLUSTER</option><option>THERMAL</option><option>DECOY</option><option>SHOCK</option></select><input id="cgk" placeholder="NICKNAME (OPTIONAL)" maxlength="24"><label style="font-size:11px;color:var(--dim);display:block;margin:6px 0;text-align:left"><input type="checkbox" id="cgl" style="width:auto;margin:0 6px 0 0">Also lock the tag permanently after writing (cannot be undone)</label><div id="cgm" style="font-size:12px;color:var(--dim);min-height:16px;margin:6px 0"></div><button id="cgw">WRITE TO NFC TAG</button></div></div>
+<button id="rsc">SCAN / VERIFY A TAG</button>
+<div class="t2">ADD A GRENADE BY CODE</div><div style="font-size:12px;color:var(--dim);margin:6px 0">Place the grenade on the registration pad (sold separately), enter the code printed on the grenade and its type, then scan. Each grenade gets its own password, saved in your account. If the grenade is already registered to someone else, enter its current password to transfer it to you.</div>
+<input id="rc" placeholder="GRENADE CODE (PRINTED ON IT)" maxlength="16" autocapitalize="characters" autocomplete="off" style="text-transform:uppercase"><select id="rt"><option>FRAG</option><option>FLASHBANG</option><option>SMOKE</option><option>IMPACT</option><option>CLUSTER</option><option>THERMAL</option><option>DECOY</option><option>SHOCK</option></select><input id="rk" placeholder="NICKNAME (OPTIONAL)" maxlength="24"><input id="rw" placeholder="PASSWORD (ONLY IF ALREADY REGISTERED)" inputmode="numeric" autocomplete="off">
+<div class="bar"><i id="rbar"></i></div><div id="rm" style="font-size:12px;color:var(--dim);min-height:16px"></div><button id="rrg">SCAN &amp; REGISTER</button>
+<div class="t2">MY GRENADES</div><div id="rl" style="display:grid;gap:6px;margin-top:8px;text-align:left"></div></div>
+<div id="re" style="color:var(--r);font-size:13px;margin-top:12px;min-height:16px"></div>
+<button id="rsh">BUY GRENADES &amp; PADS</button><button id="rbk">BACK</button></div></div>
 <h1>◉ ORDNANCE CONTROL // REMOTE ARMING SYSTEM v4.2</h1>
 <div id="hb" class="lc" style="display:none;margin-bottom:10px;text-align:center"><div style="font-size:12px;letter-spacing:3px;color:var(--dim)">GAME CODE</div><div id="hp" style="font-size:48px;font-weight:bold;letter-spacing:8px"></div><div style="font-size:12px;color:var(--dim)"><span id="plc">0</span> PLAYERS: <span id="pls">NONE YET</span></div></div>
 <div class="top"><div id="clock">10:00</div><div id="state">STANDBY</div></div>
@@ -101,7 +120,49 @@ function poll(){Promise.all([sb("gg_games?pin=eq."+pin+"&select=*").then(functio
 $("cb").onclick=function(){$("le").textContent="";var tries=0;(function go(){var p=String(Math.floor(1000+Math.random()*9000));rpc("gg_create",{p_pin:p}).then(function(sec){role="host";pin=p;secret=sec;ss("role","host");ss("pin",p);ss("secret",sec);boot()}).catch(function(e){if(/in use/.test(e.message)&&++tries<6)go();else $("le").textContent=/fetch|network/i.test(e.message)?"Cannot reach the game server. Open the GitHub Pages link in your browser.":e.message})})()};
 $("jb").onclick=function(){var p=$("jp").value.trim().toUpperCase(),n=$("jn").value.trim();$("le").textContent="";rpc("gg_join",{p_pin:p,p_name:n}).then(function(){role="player";pin=p;pname=n;ss("role","player");ss("pin",p);ss("pname",n);boot()}).catch(function(e){$("le").textContent=e.message})};
 $("lv").onclick=function(e){e.preventDefault();["role","pin","secret","pname"].forEach(function(k){ss(k,null)});location.reload()};
-function boot(){role=role||ss("role");pin=pin||ss("pin");secret=secret||ss("secret");pname=pname||ss("pname");
+var SHOP_URL=""; // put your store website address here later, e.g. "https://yourshop.com"
+var tok="",guser="";try{tok=localStorage.getItem("gtok")||"";guser=localStorage.getItem("guser")||""}catch(e){}
+function setTok(t,u){tok=t||"";guser=u||"";try{if(t){localStorage.setItem("gtok",t);localStorage.setItem("guser",u)}else{localStorage.removeItem("gtok");localStorage.removeItem("guser")}}catch(e){}}
+function shop(el){if(SHOP_URL)window.open(SHOP_URL,"_blank");else $(el).textContent="The store is coming soon."}
+function regView(){$("ra").style.display=tok?"none":"block";$("rb").style.display=tok?"block":"none";$("re").textContent="";$("rn").textContent=guser.toUpperCase();if(tok)loadG()}
+function loadG(){rpc("gg_my_grenades",{p_token:tok}).then(function(a){$("rl").innerHTML=a.length?a.map(function(x){return '<div class="g"><div>'+esc(x.nick||x.type)+'<small>'+x.type+' · CODE '+esc(x.code)+' · '+new Date(x.at).toLocaleDateString()+'</small><small data-p="'+esc(x.pw||"")+'" style="cursor:pointer;color:var(--g)">PASSWORD ••••••</small></div><div style="display:grid;gap:4px"><button data-w="'+esc(x.code)+'" style="flex:none;padding:5px 10px">WRITE TAG</button><button data-e="'+esc(x.code)+'" style="flex:none;padding:5px 10px">EDIT</button><button data-d="'+x.id+'" style="flex:none;padding:5px 10px">REMOVE</button></div></div>'}).join(""):'<div style="color:var(--dim);font-size:12px;text-align:center">NONE REGISTERED YET</div>'}).catch(function(e){if(/session/i.test(e.message)){setTok("");regView();$("re").textContent=e.message}else $("re").textContent=e.message})}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function auth(fn){var u=$("ru").value.trim(),p=$("rp").value;$("re").textContent="";rpc(fn,{p_user:u,p_pass:p}).then(function(t){if(t=="BAD")throw new Error("Wrong username or password");if(t=="LOCKED")throw new Error("Too many attempts. Try again in 10 minutes.");setTok(t,u.toLowerCase());$("rp").value="";regView()}).catch(function(e){$("re").textContent=e.message})}
+$("rz").onclick=function(){document.body.className="rg";regView()};
+$("rbk").onclick=function(){document.body.className="land"};
+$("sh1").onclick=function(){shop("le")};$("rsh").onclick=function(){shop("re")};
+$("rli").onclick=function(){auth("gg_login")};$("rsu").onclick=function(){auth("gg_signup")};
+$("rlo").onclick=function(e){e.preventDefault();rpc("gg_logout",{p_token:tok}).catch(function(){});setTok("");regView()};
+$("rl").onclick=function(e){var pv=e.target.getAttribute("data-p");if(pv!==null){e.target.textContent=e.target.textContent.indexOf("•")>=0?"PASSWORD "+(pv||"—"):"PASSWORD ••••••";return}var w=e.target.getAttribute("data-w"),ed=e.target.getAttribute("data-e");
+if(w||ed){var code=w||ed,pw=prompt("Enter this grenade's password");if(!pw)return;var nk="",ty="";if(ed){nk=prompt("New nickname (leave blank to keep)")||"";ty=(prompt("New type: FRAG, FLASHBANG, SMOKE, IMPACT, CLUSTER, THERMAL, DECOY or SHOCK (blank to keep)")||"").toUpperCase().trim()}
+$("re").textContent="";rpc("gg_edit_grenade",{p_token:tok,p_code:code,p_pass:pw,p_nick:nk,p_type:ty}).then(function(r){if(r.status=="wrong")throw new Error("Wrong password. Nothing was changed.");if(r.status=="locked")throw new Error("Too many wrong attempts. Try again in 10 minutes.");loadG();
+if(w){$("rm").textContent="HOLD THE TAG TO THE BACK OF YOUR PHONE...";return writeTag(r.code,r.sig,false).then(function(){$("rm").textContent="TAG WRITTEN // CODE "+r.code;beep(1300,.3)}).catch(function(x){$("rm").textContent="";throw x})}else{$("rm").textContent="GRENADE UPDATED"}}).catch(function(x){$("re").textContent=x.message});return}
+var d=e.target.getAttribute("data-d");if(d&&confirm("Remove this grenade from your account?"))rpc("gg_remove_grenade",{p_token:tok,p_id:d}).then(loadG).catch(function(x){$("re").textContent=x.message})};
+$("rrg").onclick=function(){var code=$("rc").value.trim();$("re").textContent="";if(code.length<4){$("re").textContent="Enter the grenade code printed on the grenade";return}
+$("rrg").disabled=true;var p=0,m=["DETECTING PAD...","READING GRENADE...","CHECKING REGISTRY...","VERIFYING..."];
+var iv=setInterval(function(){p+=4;$("rbar").style.width=p+"%";$("rm").textContent=m[Math.min(3,Math.floor(p/25))];if(p>=100){clearInterval(iv);
+rpc("gg_claim_grenade",{p_token:tok,p_code:code,p_type:$("rt").value,p_nick:$("rk").value,p_pass:$("rw").value}).then(function(r){$("rm").textContent="";
+if(r.status=="registered"||r.status=="transferred"){$("rm").textContent=(r.status=="registered"?"REGISTERED":"TRANSFERRED TO YOUR ACCOUNT")+" // PASSWORD "+r.password+" (SAVED IN YOUR ACCOUNT)";$("rw").value="";$("rk").value="";$("rc").value="";beep(1300,.3);loadG()}
+else if(r.status=="password_required"){$("re").textContent="This grenade is already registered to another account. Enter its password above and scan again.";$("rw").focus();beep(500,.3)}
+else if(r.status=="wrong"){$("re").textContent="Wrong password for this grenade.";beep(300,.3)}
+else{$("re").textContent="Too many wrong attempts on this grenade. Try again in 10 minutes.";beep(300,.3)}}).catch(function(e){$("rm").textContent="";$("re").textContent=e.message;beep(300,.3)}).then(function(){$("rrg").disabled=false;$("rbar").style.width="0"})}},80)};
+
+function nfcOK(){return "NDEFReader" in window}
+function tagUrl(c,sg){return location.origin+location.pathname+"#g="+c+"."+sg}
+function tagCheck(c,sg){return rpc("gg_tag_info",{p_code:c,p_sig:sg})}
+function writeTag(c,sg,lock){if(!nfcOK())return Promise.reject(new Error("NFC writing needs Chrome on an Android phone with NFC. You can write this link to the tag with any NFC app instead: "+tagUrl(c,sg)));var n=new NDEFReader();return n.write({records:[{recordType:"url",data:tagUrl(c,sg)},{recordType:"text",data:"GRENADE:"+c}]}).then(function(){if(lock&&typeof n.makeReadOnly=="function")return n.makeReadOnly()})}
+$("cg0").onclick=function(){$("cg").style.display=$("cg").style.display=="none"?"block":"none";$("cg1").style.display="block";$("cg2").style.display="none"};
+$("cgn").onclick=function(){shop("re")};
+$("cgy").onclick=function(){$("cg1").style.display="none";$("cg2").style.display="block";$("cgm").textContent=""};
+$("cgw").onclick=function(){$("re").textContent="";$("cgw").disabled=true;
+rpc("gg_create_grenade",{p_token:tok,p_type:$("cgt").value,p_nick:$("cgk").value}).then(function(r){$("cgm").textContent="HOLD A BLANK NFC TAG TO THE BACK OF YOUR PHONE...";return writeTag(r.code,r.sig,$("cgl").checked).then(function(){$("cgm").textContent="TAG WRITTEN // CODE "+r.code+" // PASSWORD "+r.password+" (SAVED IN YOUR ACCOUNT)";$("cgk").value="";beep(1300,.3)}).catch(function(e){$("cgm").textContent="";$("re").textContent="Grenade created (code "+r.code+", password "+r.password+") but the tag was not written. "+e.message+" You can retry with WRITE TAG in My Grenades."})}).catch(function(e){$("re").textContent=e.message}).then(function(){$("cgw").disabled=false;loadG()})};
+$("rsc").onclick=function(){$("re").textContent="";if(!nfcOK()){$("re").textContent="Tag scanning needs Chrome on an Android phone with NFC.";return}
+var n=new NDEFReader();$("rm").textContent="HOLD A TAG TO THE BACK OF YOUR PHONE...";n.scan().then(function(){n.onreading=function(ev){var f=null;ev.message.records.forEach(function(r){if(r.recordType=="url"){var m=new TextDecoder().decode(r.data).match(/#g=([A-Za-z0-9-]{4,16})\.([0-9a-f]{16})/i);if(m)f=m}});
+if(!f){$("rm").textContent="";$("re").textContent="This tag has no grenade software on it.";return}
+tagCheck(f[1],f[2]).then(function(r){$("rm").textContent=r.valid?"AUTHENTIC // "+r.type+" // CODE "+r.code:"";if(!r.valid)$("re").textContent="NOT VERIFIED: this tag was edited or is not a registered grenade."})}}).catch(function(e){$("rm").textContent="";$("re").textContent=e.message})};
+$("tgb").onclick=function(){location.href=location.pathname};
+function boot(){var hm=location.hash.match(/^#g=([A-Za-z0-9-]{4,16})\.([0-9a-f]{16})$/i);if(hm){document.body.className="tg";tagCheck(hm[1],hm[2]).then(function(r){if(r.valid){$("tgs").textContent="AUTHENTIC GRENADE";$("tgs").style.color="var(--g)";$("tgi").textContent=r.type+" // CODE "+r.code}else{$("tgs").textContent="NOT VERIFIED";$("tgs").style.color="var(--r)";$("tgi").textContent="This tag was edited or is not a registered grenade."}}).catch(function(){$("tgs").textContent="CANNOT CHECK";$("tgi").textContent="Connection problem. Try again."});return}
+role=role||ss("role");pin=pin||ss("pin");secret=secret||ss("secret");pname=pname||ss("pname");
 if(role=="host"&&pin&&secret){document.body.className="";$("hb").style.display="block";$("hp").textContent=pin;$("state").textContent="LOBBY // PLAYERS JOIN WITH THE CODE";hostPoll();setInterval(hostPoll,2000);lastK="";sync()}
 else if(role=="player"&&pin){document.body.className="pl";$("ps").textContent="CONNECTING...";poll();setInterval(poll,2000);setInterval(pshow,500)}
 else{role="";document.body.className="land"}}
